@@ -2,6 +2,7 @@ package com.sparta.services;
 
 import com.sparta.dtos.CourseDto;
 import com.sparta.dtos.CourseMapper;
+import com.sparta.entities.Course;
 import com.sparta.repositories.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,16 @@ public class CourseService {
 
     public List<CourseDto> getAllCourses() {
         return entityRepository.findAll().stream().map(c -> entityMapper.toDTO(c)).toList();
+    }
+
+    public CourseDto saveCourse(CourseDto entityParam) {
+        if(entityParam == null){
+            throw new IllegalArgumentException("Course cannot be null");
+        }else if(entityParam.getCourseName().length() < 8){
+            throw new IllegalArgumentException("Course name length is < 8");
+        }
+        Course entity = entityMapper.toEntity(entityParam);
+        return entityMapper.toDTO(entityRepository.save(entity));
     }
 
 }
