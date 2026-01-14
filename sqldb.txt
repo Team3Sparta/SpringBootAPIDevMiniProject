@@ -1,0 +1,16 @@
+CREATE TABLE trainer (
+trainer_id int PRIMARY KEY AUTO_INCREMENT,
+first_name VARCHAR(30) NOT NULL,
+last_name VARCHAR(30) NOT NULL
+);
+
+CREATE TABLE course (
+course_id int PRIMARY KEY AUTO_INCREMENT,
+course_name VARCHAR(30) UNIQUE NOT NULL );
+
+
+
+CREATE TABLE trainee (
+trainee_id int PRIMARY KEY AUTO_INCREMENT,
+first_name VARCHAR(30)  NOT NULL ,
+last_name VARCHAR(30)  NOT NULL );
