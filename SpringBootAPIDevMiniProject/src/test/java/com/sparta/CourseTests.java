@@ -58,7 +58,7 @@ public class CourseTests {
         Mockito.when(mockMapper.toDTO(entity2)).thenReturn(entityDto2);
         Mockito.when(mockRepository.findAll()).thenReturn(entitiesList);
         // Act
-        List<CourseDto> result = sut.getAllAuthors();
+        List<CourseDto> result = sut.getAllCourses();
         //Assert
         Assertions.assertEquals(2, result.size());
         Assertions.assertEquals("Java Programming", result.get(0).getCourseName());
