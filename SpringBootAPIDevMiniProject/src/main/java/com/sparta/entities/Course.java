@@ -17,6 +17,13 @@ public class Course {
     @Column(name = "course_name", nullable = false, length = 30)
     private String courseName;
 
+    public Course(/* Integer id,*/ String courseName) {
+        //this.id = id;
+        this.courseName = courseName;
+    }
+
+    public Course(){}
+
     public Integer getId() {
         return id;
     }
