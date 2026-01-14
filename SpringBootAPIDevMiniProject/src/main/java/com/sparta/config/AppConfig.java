@@ -1,6 +1,7 @@
 package com.sparta.config;
 
 
+
 import com.sparta.entities.Course;
 
 import com.sparta.repositories.CourseRepository;
@@ -31,3 +32,4 @@ public class AppConfig {
         };
     }
 }
+
