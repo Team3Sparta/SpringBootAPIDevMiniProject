@@ -1,4 +1,4 @@
-package com.sparta.library.controllers;
+package com.sparta.controllers;
 
 import com.sparta.dtos.TrainerDTO;
 import com.sparta.entities.Trainer;
