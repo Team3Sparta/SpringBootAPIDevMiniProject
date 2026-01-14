@@ -65,4 +65,35 @@ public class CourseTests {
         Assertions.assertEquals("Bython Programming", result.get(1).getCourseName());
     }
 
+    @Test
+    @DisplayName("Save Course Happy Path")
+    public void saveCourseHappyPathTest() {
+        Mockito.when(mockRepository.save(entity1)).thenReturn(entity1);
+        Mockito.when(mockMapper.toDTO(entity1)).thenReturn(entityDto1);
+        Mockito.when(mockMapper.toEntity(entityDto1)).thenReturn(entity1);
+        CourseDto savedEntity = sut.saveCourse(entityDto1);
+        Assertions.assertNotNull(savedEntity, "The saved course should not be null");
+        Assertions.assertEquals("Java Programming", savedEntity.getCourseName(), "Course name should match");
+    }
+
+    @Test
+    @DisplayName("Sad Path Save 1")
+    void sadPathSaveCustomer1() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> sut.saveCourse(null));
+
+    }
+
+    @Test
+    @DisplayName("Sad Path Save 2")
+    void sadPathSaveCustomer2() {
+
+
+        CourseDto entityDto = new CourseDto();
+        entityDto.setCourseName("Bython");
+        entityDto.setId(1);
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> sut.saveCourse(entityDto));
+
+    }
+
 }
