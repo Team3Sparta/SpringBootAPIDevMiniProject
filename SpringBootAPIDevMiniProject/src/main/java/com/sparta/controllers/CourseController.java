@@ -3,6 +3,7 @@ package com.sparta.controllers;
 import com.sparta.dtos.CourseDTO;
 import com.sparta.services.CourseService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,6 +11,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/courses")
+@Tag(
+        name = "Course Management",
+        description = "Operations related to courses"
+)
 public class CourseController {
 
     private final CourseService service;
