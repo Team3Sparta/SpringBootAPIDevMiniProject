@@ -13,6 +13,7 @@ import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 public class CourseTests {
@@ -138,6 +139,59 @@ public class CourseTests {
         Mockito.verify(mockRepository, Mockito.never()).findById(Mockito.anyInt());
 
     }
+    @Test
+    @DisplayName("Delete Course Happy Path")
+    public void deleteCourseHappyPathTest() {
+        Mockito.when(mockRepository.existsById(1)).thenReturn(true);
+
+        boolean result = sut.deleteCourse(1);
+
+        Assertions.assertTrue(result, "The course should be deleted successfully");
+        Mockito.verify(mockRepository, Mockito.times(1)).deleteById(1);
+    }
+    @Test
+    @DisplayName("Update course Happy path")
+    void updateCourseHappyPathTest() {
+        Course course = new Course();
+        course.setId(2);
+        course.setCourseName("Bython Programming");
+
+        Mockito.when(mockRepository.existsById(2)).thenReturn(true);
+        Mockito.when(mockRepository.save(course)).thenReturn(course);
+
+        CourseDTO dto = new CourseDTO();
+        dto.setId(2);
+
+        Mockito.when(mockMapper.toDTO(course)).thenReturn(dto);
+        Mockito.when(mockMapper.toEntity(dto)).thenReturn(course);
+
+        CourseDTO result = sut.updateCourse(dto);
+
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(2, result.getId());
+    }
+    @Test
+    @DisplayName("Update course sad path")
+    void updateCourseSadPathTest() {
+        Course course = new Course();
+        course.setId(2);
+        course.setCourseName("Bython Programming");
+
+        Mockito.when(mockRepository.existsById(2)).thenReturn(true);
+        Mockito.when(mockRepository.save(course)).thenReturn(course);
+
+        CourseDTO dto = new CourseDTO();
+        dto.setId(2);
+
+        Mockito.when(mockMapper.toDTO(course)).thenReturn(dto);
+        Mockito.when(mockMapper.toEntity(dto)).thenReturn(course);
+
+        CourseDTO result = sut.updateCourse(dto);
+
+        Mockito.when(mockRepository.existsById(2)).thenReturn(false);
+//
+        Assertions.assertThrows(NoSuchElementException.class, () -> sut.updateCourse(dto));
+    }
 
     /*
     @Test
@@ -162,5 +216,6 @@ public class CourseTests {
         Assertions.assertEquals("Bython Programming", result.get(1).getCourseName());
 
     }
+
 */
 }

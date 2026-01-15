@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class CourseService {
@@ -51,6 +52,23 @@ public class CourseService {
 
     public List<CourseDTO> excludeCourse(String name) {
         return entityRepository.findByCourseNameNotIgnoreCase(name).stream().map(c -> entityMapper.toDTO(c)).toList();
+    }
+    public boolean deleteCourse(Integer id) {
+        if (entityRepository.existsById(id)) {
+            entityRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
+
+    public CourseDTO updateCourse(CourseDTO courseDTO) {
+        Integer id = courseDTO.getId();
+        if (!entityRepository.existsById(id)) {
+            throw new NoSuchElementException("Course with ID " + id + " does not exist.");
+        }
+        Course entity = entityMapper.toEntity(courseDTO);
+        Course saved = entityRepository.save(entity);
+        return entityMapper.toDTO(saved);
     }
 
 }
