@@ -139,7 +139,7 @@ public class TraineeTests {
 
     @Test
     @DisplayName("DELETE:(Sad)->Check if deleteTrainee returns false")
-    void deleteTrainee_IdNotFound_ReturnsFalse() {
+    void checkIfDeleteTraineeWhenIdNotFoundReturnsFalseTest() {
 
         int testId = 99;
         Mockito.when(mockRepository.existsById(testId)).thenReturn(false);
@@ -153,7 +153,7 @@ public class TraineeTests {
     }
     @Test
     @DisplayName("DELETE:(Happy)->Check if deleteTrainee returns true and call delete when ID exists")
-    void deleteTrainee_IdExists_ReturnsTrue() {
+    void checkIfDeleteTraineeIdExistsReturnsTrueTest() {
 
         int testId = 1;
         Mockito.when(mockRepository.existsById(testId)).thenReturn(true);
