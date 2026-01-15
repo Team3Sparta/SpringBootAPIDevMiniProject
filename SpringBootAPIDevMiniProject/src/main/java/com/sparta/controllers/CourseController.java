@@ -18,7 +18,7 @@ public class CourseController {
         this.service = service;
     }
 
-    @Operation(summary = "get all courses", description = "Get list of all courses")
+    @Operation(summary = "Get all courses", description = "Get list of all courses")
     @GetMapping(value = "/")
     public ResponseEntity<List<CourseDTO>> getAllEntities(){
         List<CourseDTO> books = service.getAllCourses();
@@ -50,7 +50,7 @@ public class CourseController {
         }
     }
 
-    @Operation(summary = "get all courses that do not match the name", description = "Get list of all courses")
+    @Operation(summary = "Get all courses that do not match the name", description = "Get list of all courses")
     @GetMapping(params = "excludeName")
     public ResponseEntity<List<CourseDTO>> getExcludedEntities(
             @RequestParam("excludeName") String name    ) {
