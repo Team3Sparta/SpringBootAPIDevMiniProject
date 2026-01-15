@@ -16,6 +16,7 @@ import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.*;
 
@@ -74,7 +75,50 @@ public class TraineeTests {
         Assertions.assertEquals("C", result.get(1).getLastName());
     }
 
+    @Test
+    @DisplayName("GET:(HAPPY)-> Successfully retrieve Trainee by ID")
+    void getTraineeById_IdExists_ReturnsTraineeDTO() {
 
+        int testId = 1;
+        Trainee trainee = new Trainee();
+        trainee.setId(testId);
+        trainee.setFirstName("Mariusz");
+        trainee.setLastName("B");
+
+        TraineeDTO expectedDto = new TraineeDTO();
+        expectedDto.setId(testId);
+        expectedDto.setFirstName("Mariusz");
+        expectedDto.setLastName("B");
+
+        Mockito.when(mockRepository.findById(testId))
+                .thenReturn(Optional.of(trainee));
+
+        Mockito.when(mockMapper.toDTO(trainee))
+                .thenReturn(expectedDto);
+
+        TraineeDTO result = sut.getTraineeById(testId);
+
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(testId, result.getId());
+        Assertions.assertEquals("Mariusz", result.getFirstName());
+        Mockito.verify(mockRepository).findById(testId);
+        Mockito.verify(mockMapper).toDTO(trainee);
+    }
+
+
+    @Test
+    @DisplayName("GET:(SAD)-> Check if non-existent ID of trainee is retrieved")
+    void checkIfNonExistentIdOfTraineeIsRetrievedTest() {
+        // 1. Arrange
+        int testId = 99;
+
+        Mockito.when(mockRepository.findById(testId)).thenReturn(Optional.empty());
+        Mockito.when(mockMapper.toDTO(null)).thenReturn(null);
+        TraineeDTO result = sut.getTraineeById(testId);
+        Assertions.assertNull(result, "The DTO should be null if the trainee wasn't found");
+        Mockito.verify(mockRepository).findById(testId);
+        Mockito.verify(mockMapper).toDTO(null);
+    }
 
 
 
