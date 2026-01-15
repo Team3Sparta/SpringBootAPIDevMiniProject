@@ -1,7 +1,5 @@
 package com.sparta;
 
-
-
 import com.sparta.dtos.TraineeDTO;
 import com.sparta.dtos.TraineeMapper;
 
@@ -56,7 +54,7 @@ public class TraineeTests {
     @Test
     @DisplayName("GET:(Happy) Get All Trainee Test")
     public void getAllTraineeListTest(){
-        // Arrange
+
         List<Trainee> entitiesList = new ArrayList<>();
 
         entitiesList.add(entity1);
@@ -65,9 +63,9 @@ public class TraineeTests {
         Mockito.when(mockMapper.toDTO(entity1)).thenReturn(entityDto1);
         Mockito.when(mockMapper.toDTO(entity2)).thenReturn(entityDto2);
         Mockito.when(mockRepository.findAll()).thenReturn(entitiesList);
-        // Act
+
         List<TraineeDTO> result = sut.getAllTrainees();
-        //Assert
+
         Assertions.assertEquals(2, result.size());
         Assertions.assertEquals("Mariusz", result.get(0).getFirstName());
         Assertions.assertEquals("B", result.get(0).getLastName());
@@ -109,7 +107,7 @@ public class TraineeTests {
     @Test
     @DisplayName("GET:(SAD)-> Check if non-existent ID of trainee is retrieved")
     void checkIfNonExistentIdOfTraineeIsRetrievedTest() {
-        // 1. Arrange
+
         int testId = 99;
 
         Mockito.when(mockRepository.findById(testId)).thenReturn(Optional.empty());
