@@ -1,8 +1,9 @@
 package com.sparta.controllers;
 
-import com.sparta.dtos.CourseDto;
+import com.sparta.dtos.CourseDTO;
 import com.sparta.services.CourseService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,6 +11,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/courses")
+@Tag(
+        name = "Course Management",
+        description = "Operations related to courses"
+)
 public class CourseController {
 
     private final CourseService service;
@@ -18,18 +23,18 @@ public class CourseController {
         this.service = service;
     }
 
-    @Operation(summary = "get all courses", description = "Get list of all vourses")
+    @Operation(summary = "Get all courses", description = "Get list of all courses")
     @GetMapping(value = "/")
-    public ResponseEntity<List<CourseDto>> getAllEntities(){
-        List<CourseDto> books = service.getAllCourses();
+    public ResponseEntity<List<CourseDTO>> getAllEntities(){
+        List<CourseDTO> books = service.getAllCourses();
         return ResponseEntity.ok(books);
     }
 
     @Operation(summary = "Get a course by ID", description = "Retrieve a course from the database using their unique ID")
     @GetMapping(value = "/{id}")
-    public ResponseEntity<CourseDto> getEntityById(@PathVariable Integer id){
+    public ResponseEntity<CourseDTO> getEntityById(@PathVariable Integer id){
 
-        CourseDto c = this.service.getEntityByID(id);
+        CourseDTO c = this.service.getEntityByID(id);
 
         if(c!=null){
             return ResponseEntity.ok(c);
@@ -40,14 +45,21 @@ public class CourseController {
 
     @Operation(summary = "Add a new course", description = "Create a new course in the database")
     @PostMapping("/")
-    public ResponseEntity<CourseDto> addCourse(@RequestBody CourseDto entity){
+    public ResponseEntity<CourseDTO> addCourse(@RequestBody CourseDTO entity){
 
-        CourseDto savedEntity = service.saveCourse(entity);
+        CourseDTO savedEntity = service.saveCourse(entity);
         if(savedEntity != null){
             return ResponseEntity.ok(savedEntity);
         }else{
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @Operation(summary = "Get all courses that do not match the name", description = "Get list of all courses")
+    @GetMapping(params = "excludeName")
+    public ResponseEntity<List<CourseDTO>> getExcludedEntities(
+            @RequestParam("excludeName") String name    ) {
+        return ResponseEntity.ok(service.excludeCourse(name));
     }
 
 }
