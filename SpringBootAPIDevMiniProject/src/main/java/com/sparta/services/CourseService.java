@@ -51,8 +51,9 @@ public class CourseService {
     }
 
     public List<CourseDTO> excludeCourse(String name) {
-        return entityRepository.findByCourseNameNotIgnoreCase(name).stream().map(c -> entityMapper.toDTO(c)).toList();
+        return entityRepository.findByCourseNameNotContainingIgnoreCase(name).stream().map(c -> entityMapper.toDTO(c)).toList();
     }
+
     public boolean deleteCourse(Integer id) {
         if (entityRepository.existsById(id)) {
             entityRepository.deleteById(id);
