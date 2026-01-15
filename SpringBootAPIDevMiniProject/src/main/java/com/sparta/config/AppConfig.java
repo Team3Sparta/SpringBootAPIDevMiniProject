@@ -1,8 +1,10 @@
 package com.sparta.config;
 
+import com.sparta.entities.Trainee;
 import org.springframework.context.annotation.Configuration;
 import com.sparta.entities.Trainer;
 import com.sparta.entities.Course;
+import com.sparta.repositories.TraineeRepository;
 import com.sparta.repositories.TrainerRepository;
 import com.sparta.repositories.CourseRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -14,9 +16,27 @@ public class AppConfig {
 
     @Bean
     @Transactional
-    public CommandLineRunner loadData(TrainerRepository trainerRepository, CourseRepository courseRepository) {
+    public CommandLineRunner loadData(TrainerRepository trainerRepository, CourseRepository courseRepository, TraineeRepository traineeRepository) {
         return args -> {
             System.out.println("DataLoader running...");
+
+            // Seed Trainers
+            if (traineeRepository.count() == 0) {
+                Trainee younis  = new Trainee();
+                younis.setFirstName("Younis");
+                younis.setLastName("Raja");
+
+                Trainee mohammed = new Trainee();
+                mohammed.setFirstName("Mohammed");
+                mohammed.setLastName("Qadir");
+
+                traineeRepository.save(younis);
+                traineeRepository.save(mohammed);
+
+                System.out.println("Trainee seed data added");
+            } else {
+                System.out.println("Trainee seed skipped");
+            }
 
             // Seed Trainers
             if (trainerRepository.count() == 0) {
