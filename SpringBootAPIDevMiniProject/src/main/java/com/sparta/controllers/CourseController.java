@@ -1,6 +1,7 @@
 package com.sparta.controllers;
 
 import com.sparta.dtos.CourseDTO;
+import com.sparta.dtos.TrainerDTO;
 import com.sparta.services.CourseService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -61,5 +62,24 @@ public class CourseController {
             @RequestParam("excludeName") String name    ) {
         return ResponseEntity.ok(service.excludeCourse(name));
     }
+    @Operation(summary = "Update course", description = "Update an existing course")
+    @PutMapping("/{id}")
+    public ResponseEntity<CourseDTO> updateCourse(@PathVariable int id, @RequestBody CourseDTO courseDTO) {
 
+        courseDTO.setId(id);
+        try {
+            CourseDTO updatedCourse = service.updateCourse(courseDTO);
+            return ResponseEntity.ok(updatedCourse);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @Operation(summary = "Delete course", description = "Delete a course by ID")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteCourse(@PathVariable int id) {
+        return service.deleteCourse(id)
+                ? ResponseEntity.noContent().build()
+                : ResponseEntity.notFound().build();
+    }
 }
