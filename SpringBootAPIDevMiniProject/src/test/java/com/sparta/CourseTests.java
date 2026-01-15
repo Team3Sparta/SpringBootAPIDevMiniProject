@@ -13,6 +13,7 @@ import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class CourseTests {
 
@@ -93,6 +94,40 @@ public class CourseTests {
         entityDto.setId(1);
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> sut.saveCourse(entityDto));
+
+    }
+
+    @Test
+    @DisplayName("Check findById is called once")
+    void checkFindByIdIsCalledOnceOnRepository() {
+        Mockito.when(mockRepository.existsById(Mockito.anyInt())).thenReturn(true);
+        sut.getEntityByID(Mockito.anyInt());
+        Mockito.verify(mockRepository).findById(Mockito.anyInt());
+        Mockito.verify(mockRepository, Mockito.times(1)).findById(Mockito.anyInt());
+    }
+
+    @Test
+    @DisplayName("Happy Path getCustomerByID")
+    void happyPathGetCustomerById() {
+
+        Mockito.when(mockRepository.findById(Mockito.anyInt())).thenReturn(Optional.of(entity1));
+        Mockito.when(mockRepository.existsById(Mockito.anyInt())).thenReturn(true);
+
+        Mockito.when(mockMapper.toDTO(entity1)).thenReturn(entityDto1);
+
+        CourseDto result = sut.getEntityByID(Mockito.anyInt());
+        //Assert
+        Assertions.assertEquals("Java Programming", result.getCourseName());
+
+    }
+
+    @Test
+    @DisplayName("Sad Path getCustomerByID")
+    void sadPathGetEntityId1() {
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> sut.getEntityByID(Mockito.anyInt()));
+        Mockito.verify(mockRepository, Mockito.times(1)).existsById(Mockito.anyInt());
+        Mockito.verify(mockRepository, Mockito.never()).findById(Mockito.anyInt());
 
     }
 

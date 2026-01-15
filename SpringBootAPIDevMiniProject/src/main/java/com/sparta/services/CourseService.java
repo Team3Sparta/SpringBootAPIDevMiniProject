@@ -40,4 +40,12 @@ public class CourseService {
         return entityMapper.toDTO(entityRepository.save(entity));
     }
 
+    public CourseDto getEntityByID(Integer id) {
+        if (entityRepository.existsById(id) == false) {
+            throw new IllegalArgumentException("Customer does not exist!!!");
+        } else {
+            return entityMapper.toDTO(entityRepository.findById(id).orElse(null));
+        }
+    }
+
 }
