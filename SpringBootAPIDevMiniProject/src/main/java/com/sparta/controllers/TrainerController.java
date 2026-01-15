@@ -38,16 +38,19 @@ public class TrainerController {
 
     @Operation(summary = "Add new trainer", description = "Create a new trainer")
     @PostMapping("/")
-    public ResponseEntity<TrainerDTO> addTrainer(@RequestBody Trainer trainer) {
-        return ResponseEntity.status(201).body(service.createTrainer(trainer));
+    public ResponseEntity<TrainerDTO> addTrainer(@RequestBody TrainerDTO trainerDTO) {
+        TrainerDTO createdTrainer = service.createTrainer(trainerDTO);
+        return ResponseEntity.status(201).body(createdTrainer);
     }
 
     @Operation(summary = "Update trainer", description = "Update an existing trainer")
     @PutMapping("/{id}")
-    public ResponseEntity<TrainerDTO> updateTrainer(@PathVariable int id, @RequestBody Trainer trainer) {
-        trainer.setId(id);
+    public ResponseEntity<TrainerDTO> updateTrainer(@PathVariable int id, @RequestBody TrainerDTO trainerDTO) {
+
+        trainerDTO.setId(id);
         try {
-            return ResponseEntity.ok(service.updateTrainer(trainer));
+            TrainerDTO updatedTrainer = service.updateTrainer(trainerDTO);
+            return ResponseEntity.ok(updatedTrainer);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();
         }
