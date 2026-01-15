@@ -52,27 +52,30 @@ public class TraineeTests {
         entityDto2.setId(1);
     }
 
-        @Test
-        @DisplayName("GET:(Happy) Get All Trainee Test")
-        public void getAllTraineeListTest(){
-            // Arrange
-            List<Trainee> entitiesList = new ArrayList<>();
+    @Test
+    @DisplayName("GET:(Happy) Get All Trainee Test")
+    public void getAllTraineeListTest(){
+        // Arrange
+        List<Trainee> entitiesList = new ArrayList<>();
 
-            entitiesList.add(entity1);
-            entitiesList.add(entity2);
+        entitiesList.add(entity1);
+        entitiesList.add(entity2);
 
-            Mockito.when(mockMapper.toDTO(entity1)).thenReturn(entityDto1);
-            Mockito.when(mockMapper.toDTO(entity2)).thenReturn(entityDto2);
-            Mockito.when(mockRepository.findAll()).thenReturn(entitiesList);
-            // Act
-            List<TraineeDTO> result = sut.getAllTrainees();
-            //Assert
-            Assertions.assertEquals(2, result.size());
-            Assertions.assertEquals("Mariusz", result.get(0).getFirstName());
-            Assertions.assertEquals("B", result.get(0).getLastName());
-            Assertions.assertEquals("Gregory", result.get(1).getFirstName());
-            Assertions.assertEquals("C", result.get(1).getLastName());
-        }
+        Mockito.when(mockMapper.toDTO(entity1)).thenReturn(entityDto1);
+        Mockito.when(mockMapper.toDTO(entity2)).thenReturn(entityDto2);
+        Mockito.when(mockRepository.findAll()).thenReturn(entitiesList);
+        // Act
+        List<TraineeDTO> result = sut.getAllTrainees();
+        //Assert
+        Assertions.assertEquals(2, result.size());
+        Assertions.assertEquals("Mariusz", result.get(0).getFirstName());
+        Assertions.assertEquals("B", result.get(0).getLastName());
+        Assertions.assertEquals("Gregory", result.get(1).getFirstName());
+        Assertions.assertEquals("C", result.get(1).getLastName());
+    }
+
+
+
 
 
     @Test
@@ -89,21 +92,27 @@ public class TraineeTests {
     void checkCreationOfNewTraineeTest(){
 
         Trainee inputTrainee = new Trainee();
+        inputTrainee.setFirstName("Maria");
+        inputTrainee.setLastName("D");
+
         Trainee savedTrainee = new Trainee();
+        savedTrainee.setId(3);
+        savedTrainee.setFirstName("Maria");
+        savedTrainee.setLastName("D");
+
         TraineeDTO expectedDto = new TraineeDTO();
+        expectedDto.setFirstName("Maria");
+        expectedDto.setLastName("D");
 
         Mockito.when(mockRepository.save(inputTrainee)).thenReturn(savedTrainee);
         Mockito.when(mockMapper.toDTO(savedTrainee)).thenReturn(expectedDto);
 
         TraineeDTO result = sut.createTrainee(inputTrainee);
 
+        Mockito.verify(mockRepository).save(inputTrainee);
 
-        Assertions.assertNotNull(result);
-        Assertions.assertEquals(expectedDto, result);
-
-
-        Mockito.verify(mockRepository, Mockito.times(1)).save(inputTrainee);
-        Mockito.verify(mockMapper, Mockito.times(1)).toDTO(savedTrainee);
+        Assertions.assertEquals("Maria", result.getFirstName());
+        Assertions.assertEquals("D", result.getLastName());
     }
     @Test
     @DisplayName("POST:(Sad)-> Check creating trainee returns null - sad path")
