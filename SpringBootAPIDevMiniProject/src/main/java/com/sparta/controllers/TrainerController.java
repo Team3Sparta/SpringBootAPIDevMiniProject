@@ -4,6 +4,7 @@ import com.sparta.dtos.TrainerDTO;
 import com.sparta.entities.Trainer;
 import com.sparta.services.TrainerService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +13,10 @@ import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/trainers")
+@Tag(
+        name = "Trainer Management",
+        description = "Operations related to trainers"
+)
 public class TrainerController {
 
     private final TrainerService service;
