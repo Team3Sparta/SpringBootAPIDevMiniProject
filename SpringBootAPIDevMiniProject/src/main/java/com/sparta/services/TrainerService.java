@@ -10,7 +10,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
-public class TrainerService {
+public class
+TrainerService {
 
     private final TrainerRepository trainerRepository;
     private final TrainerMapper trainerMapper;
@@ -36,11 +37,13 @@ public class TrainerService {
                 .orElseThrow(() -> new NoSuchElementException("Trainer not found"));
     }
 
-    public TrainerDTO createTrainer(Trainer trainer) {
-        if (trainer == null) {
+    public TrainerDTO createTrainer(TrainerDTO trainerDTO) {
+        if (trainerDTO == null) {
             throw new IllegalArgumentException("Trainer cannot be null");
         }
-        return trainerMapper.toDTO(trainerRepository.save(trainer));
+        Trainer trainerEntity = trainerMapper.toEntity(trainerDTO);
+        Trainer savedTrainer = trainerRepository.save(trainerEntity);
+        return trainerMapper.toDTO(savedTrainer);
     }
 
     public boolean deleteTrainer(int id) {
@@ -51,11 +54,13 @@ public class TrainerService {
         return false;
     }
 
-    public TrainerDTO updateTrainer(Trainer trainer) {
-        if (trainerRepository.existsById(trainer.getId())) {
-            return trainerMapper.toDTO(trainerRepository.save(trainer));
+    public TrainerDTO updateTrainer(TrainerDTO trainerDTO) {
+        if (trainerRepository.existsById(trainerDTO.getId())) {
+            Trainer trainerEntity = trainerMapper.toEntity(trainerDTO);
+            Trainer updatedTrainer = trainerRepository.save(trainerEntity);
+            return trainerMapper.toDTO(updatedTrainer);
         } else {
-            throw new IllegalArgumentException("Trainer with ID " + trainer.getId() + " does not exist.");
+            throw new IllegalArgumentException("Trainer with ID " + trainerDTO.getId() + " does not exist.");
         }
     }
 }
