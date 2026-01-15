@@ -1,9 +1,13 @@
 package com.sparta.dtos;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+//import io.swagger.v3.oas.annotations.media.Schema;
 
 public class CourseDTO {
 
+    @JsonIgnore
+    //@Schema(hidden = true)
     private Integer id;
     private String courseName;
 
