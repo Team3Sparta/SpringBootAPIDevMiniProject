@@ -2,7 +2,7 @@ package com.sparta.dtos;
 
 
 
-public class CourseDto {
+public class CourseDTO {
 
     private Integer id;
     private String courseName;

@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 @RepositoryRestResource(exported = false)
 public interface CourseRepository extends JpaRepository<Course, Integer> {
-
+    public java.util.List<Course> findByCourseNameNotIgnoreCase (String name);
 }

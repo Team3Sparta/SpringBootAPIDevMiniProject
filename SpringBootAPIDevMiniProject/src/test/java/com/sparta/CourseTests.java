@@ -1,6 +1,6 @@
 package com.sparta;
 
-import com.sparta.dtos.CourseDto;
+import com.sparta.dtos.CourseDTO;
 import com.sparta.dtos.CourseMapper;
 import com.sparta.entities.Course;
 import com.sparta.repositories.CourseRepository;
@@ -13,6 +13,7 @@ import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 public class CourseTests {
@@ -22,8 +23,8 @@ public class CourseTests {
 
     private final CourseService sut = new CourseService(mockRepository,mockMapper);
 
-    static Course entity1, entity2;
-    static CourseDto entityDto1, entityDto2;
+    static Course entity1, entity2,entity3;
+    static CourseDTO entityDto1, entityDto2,entityDto3;
 
     @BeforeAll
     public static void setUp(){
@@ -32,17 +33,25 @@ public class CourseTests {
         entity1.setCourseName("Java Programming");
         entity1.setId(1);
 
+        entityDto1 = new CourseDTO();
+        entityDto1.setCourseName("Java Programming");
+        entityDto1.setId(1);
+
         entity2 = new Course();
         entity2.setCourseName("Bython Programming");
         entity2.setId(2);
 
-        entityDto1 = new CourseDto();
-        entityDto1.setCourseName("Java Programming");
-        entityDto1.setId(1);
-
-        entityDto2 = new CourseDto();
+        entityDto2 = new CourseDTO();
         entityDto2.setCourseName("Bython Programming");
         entityDto2.setId(2);
+
+        entity3 = new Course();
+        entity3.setCourseName("Java Programming");
+        entity3.setId(3);
+
+        entityDto3 = new CourseDTO();
+        entityDto3.setCourseName("Advanced Java Programming");
+        entityDto3.setId(3);
 
     }
 
@@ -59,7 +68,7 @@ public class CourseTests {
         Mockito.when(mockMapper.toDTO(entity2)).thenReturn(entityDto2);
         Mockito.when(mockRepository.findAll()).thenReturn(entitiesList);
         // Act
-        List<CourseDto> result = sut.getAllCourses();
+        List<CourseDTO> result = sut.getAllCourses();
         //Assert
         Assertions.assertEquals(2, result.size());
         Assertions.assertEquals("Java Programming", result.get(0).getCourseName());
@@ -72,7 +81,7 @@ public class CourseTests {
         Mockito.when(mockRepository.save(entity1)).thenReturn(entity1);
         Mockito.when(mockMapper.toDTO(entity1)).thenReturn(entityDto1);
         Mockito.when(mockMapper.toEntity(entityDto1)).thenReturn(entity1);
-        CourseDto savedEntity = sut.saveCourse(entityDto1);
+        CourseDTO savedEntity = sut.saveCourse(entityDto1);
         Assertions.assertNotNull(savedEntity, "The saved course should not be null");
         Assertions.assertEquals("Java Programming", savedEntity.getCourseName(), "Course name should match");
     }
@@ -89,7 +98,7 @@ public class CourseTests {
     void sadPathSaveCustomer2() {
 
 
-        CourseDto entityDto = new CourseDto();
+        CourseDTO entityDto = new CourseDTO();
         entityDto.setCourseName("Bython");
         entityDto.setId(1);
 
@@ -115,7 +124,7 @@ public class CourseTests {
 
         Mockito.when(mockMapper.toDTO(entity1)).thenReturn(entityDto1);
 
-        CourseDto result = sut.getEntityByID(Mockito.anyInt());
+        CourseDTO result = sut.getEntityByID(Mockito.anyInt());
         //Assert
         Assertions.assertEquals("Java Programming", result.getCourseName());
 
@@ -130,5 +139,83 @@ public class CourseTests {
         Mockito.verify(mockRepository, Mockito.never()).findById(Mockito.anyInt());
 
     }
+    @Test
+    @DisplayName("Delete Course Happy Path")
+    public void deleteCourseHappyPathTest() {
+        Mockito.when(mockRepository.existsById(1)).thenReturn(true);
 
+        boolean result = sut.deleteCourse(1);
+
+        Assertions.assertTrue(result, "The course should be deleted successfully");
+        Mockito.verify(mockRepository, Mockito.times(1)).deleteById(1);
+    }
+    @Test
+    @DisplayName("Update course Happy path")
+    void updateCourseHappyPathTest() {
+        Course course = new Course();
+        course.setId(2);
+        course.setCourseName("Bython Programming");
+
+        Mockito.when(mockRepository.existsById(2)).thenReturn(true);
+        Mockito.when(mockRepository.save(course)).thenReturn(course);
+
+        CourseDTO dto = new CourseDTO();
+        dto.setId(2);
+
+        Mockito.when(mockMapper.toDTO(course)).thenReturn(dto);
+        Mockito.when(mockMapper.toEntity(dto)).thenReturn(course);
+
+        CourseDTO result = sut.updateCourse(dto);
+
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(2, result.getId());
+    }
+    @Test
+    @DisplayName("Update course sad path")
+    void updateCourseSadPathTest() {
+        Course course = new Course();
+        course.setId(2);
+        course.setCourseName("Bython Programming");
+
+        Mockito.when(mockRepository.existsById(2)).thenReturn(true);
+        Mockito.when(mockRepository.save(course)).thenReturn(course);
+
+        CourseDTO dto = new CourseDTO();
+        dto.setId(2);
+
+        Mockito.when(mockMapper.toDTO(course)).thenReturn(dto);
+        Mockito.when(mockMapper.toEntity(dto)).thenReturn(course);
+
+        CourseDTO result = sut.updateCourse(dto);
+
+        Mockito.when(mockRepository.existsById(2)).thenReturn(false);
+//
+        Assertions.assertThrows(NoSuchElementException.class, () -> sut.updateCourse(dto));
+    }
+
+    /*
+    @Test
+    @DisplayName("Happy path exclude by name")
+    void happyPathExcludeByName() {
+
+        List<Course> entitiesList = new ArrayList<>();
+
+        entitiesList.add(entity1);
+        entitiesList.add(entity2);
+        entitiesList.add(entity3);
+
+        Mockito.when(mockMapper.toDTO(entity1)).thenReturn(entityDto1);
+        Mockito.when(mockMapper.toDTO(entity2)).thenReturn(entityDto2);
+        Mockito.when(mockMapper.toDTO(entity3)).thenReturn(entityDto3);
+        Mockito.when(mockRepository.findAll()).thenReturn(entitiesList);
+        // Act
+        List<CourseDTO> result = sut.getAllCourses();
+        //Assert
+        Assertions.assertEquals(2, result.size());
+        Assertions.assertEquals("Java Programming", result.get(0).getCourseName());
+        Assertions.assertEquals("Bython Programming", result.get(1).getCourseName());
+
+    }
+
+*/
 }

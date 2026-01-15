@@ -4,6 +4,7 @@ import com.sparta.dtos.TrainerDTO;
 import com.sparta.entities.Trainer;
 import com.sparta.services.TrainerService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +13,10 @@ import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/trainers")
+@Tag(
+        name = "Trainer Management",
+        description = "Operations related to trainers"
+)
 public class TrainerController {
 
     private final TrainerService service;
@@ -38,16 +43,19 @@ public class TrainerController {
 
     @Operation(summary = "Add new trainer", description = "Create a new trainer")
     @PostMapping("/")
-    public ResponseEntity<TrainerDTO> addTrainer(@RequestBody Trainer trainer) {
-        return ResponseEntity.status(201).body(service.createTrainer(trainer));
+    public ResponseEntity<TrainerDTO> addTrainer(@RequestBody TrainerDTO trainerDTO) {
+        TrainerDTO createdTrainer = service.createTrainer(trainerDTO);
+        return ResponseEntity.status(201).body(createdTrainer);
     }
 
     @Operation(summary = "Update trainer", description = "Update an existing trainer")
     @PutMapping("/{id}")
-    public ResponseEntity<TrainerDTO> updateTrainer(@PathVariable int id, @RequestBody Trainer trainer) {
-        trainer.setId(id);
+    public ResponseEntity<TrainerDTO> updateTrainer(@PathVariable int id, @RequestBody TrainerDTO trainerDTO) {
+
+        trainerDTO.setId(id);
         try {
-            return ResponseEntity.ok(service.updateTrainer(trainer));
+            TrainerDTO updatedTrainer = service.updateTrainer(trainerDTO);
+            return ResponseEntity.ok(updatedTrainer);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();
         }

@@ -4,13 +4,19 @@ import com.sparta.dtos.TraineeDTO;
 import com.sparta.entities.Trainee;
 import com.sparta.services.TraineeService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
 @RestController
 @RequestMapping("/trainees")
+@Tag(
+        name = "Trainee Management",
+        description = "Operations related to trainees"
+)
 public class TraineeController {
     private final TraineeService traineeService;
 

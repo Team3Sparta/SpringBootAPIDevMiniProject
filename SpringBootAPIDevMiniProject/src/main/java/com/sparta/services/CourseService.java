@@ -1,13 +1,15 @@
 package com.sparta.services;
 
-import com.sparta.dtos.CourseDto;
+import com.sparta.dtos.CourseDTO;
 import com.sparta.dtos.CourseMapper;
 import com.sparta.entities.Course;
 import com.sparta.repositories.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class CourseService {
@@ -26,11 +28,11 @@ public class CourseService {
         this.entityMapper = entityMapper;
     }
 
-    public List<CourseDto> getAllCourses() {
+    public List<CourseDTO> getAllCourses() {
         return entityRepository.findAll().stream().map(c -> entityMapper.toDTO(c)).toList();
     }
 
-    public CourseDto saveCourse(CourseDto entityParam) {
+    public CourseDTO saveCourse(CourseDTO entityParam) {
         if(entityParam == null){
             throw new IllegalArgumentException("Course cannot be null");
         }else if(entityParam.getCourseName().length() < 8){
@@ -40,12 +42,33 @@ public class CourseService {
         return entityMapper.toDTO(entityRepository.save(entity));
     }
 
-    public CourseDto getEntityByID(Integer id) {
+    public CourseDTO getEntityByID(Integer id) {
         if (entityRepository.existsById(id) == false) {
             throw new IllegalArgumentException("Customer does not exist!!!");
         } else {
             return entityMapper.toDTO(entityRepository.findById(id).orElse(null));
         }
+    }
+
+    public List<CourseDTO> excludeCourse(String name) {
+        return entityRepository.findByCourseNameNotIgnoreCase(name).stream().map(c -> entityMapper.toDTO(c)).toList();
+    }
+    public boolean deleteCourse(Integer id) {
+        if (entityRepository.existsById(id)) {
+            entityRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
+
+    public CourseDTO updateCourse(CourseDTO courseDTO) {
+        Integer id = courseDTO.getId();
+        if (!entityRepository.existsById(id)) {
+            throw new NoSuchElementException("Course with ID " + id + " does not exist.");
+        }
+        Course entity = entityMapper.toEntity(courseDTO);
+        Course saved = entityRepository.save(entity);
+        return entityMapper.toDTO(saved);
     }
 
 }
