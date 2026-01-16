@@ -38,7 +38,7 @@ public class TrainerServiceTests {
     @Test
     @DisplayName("Get All Trainers Test")
     public void getAllTrainersTest() {
-        // Arrange
+
         Trainer trainer1 = new Trainer();
         trainer1.setId(1);
         Trainer trainer2 = new Trainer();
@@ -58,10 +58,10 @@ public class TrainerServiceTests {
         Mockito.when(mockMapper.toDTO(trainer1)).thenReturn(dto1);
         Mockito.when(mockMapper.toDTO(trainer2)).thenReturn(dto2);
 
-        // Act
+
         List<TrainerDTO> result = sut.getAllTrainers();
 
-        // Assert
+
         Assertions.assertEquals(2, result.size());
         Assertions.assertEquals(1, result.get(0).getId());
         Assertions.assertEquals(2, result.get(1).getId());
@@ -187,7 +187,7 @@ public class TrainerServiceTests {
     @Test
     @DisplayName("Test correct parameter passed to save")
     public void testCorrectParameterPassed() {
-        // Create DTO
+
         TrainerDTO dto = new TrainerDTO();
         dto.setId(3);
         dto.setFirstName("Younis");
