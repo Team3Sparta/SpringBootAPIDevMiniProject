@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HomeController {
 
-    @GetMapping("/")
+    @GetMapping("/api")
     public ResponseEntity<Void> redirectSwaggerUI(){
         HttpHeaders headers = new HttpHeaders();
         headers.add("Location","/swagger-ui/index.html");

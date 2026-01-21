@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @RestController
-@RequestMapping("/trainers")
+@RequestMapping("api/trainers")
 @Tag(
         name = "Trainer Management",
         description = "Operations related to trainers"
