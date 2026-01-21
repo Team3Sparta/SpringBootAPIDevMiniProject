@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class CourseService {
@@ -42,6 +43,7 @@ public class CourseService {
         return entityMapper.toDTO(entityRepository.save(entity));
     }
 
+    /*
     public CourseDTO getEntityByID(Integer id) {
         if (entityRepository.existsById(id) == false) {
             throw new IllegalArgumentException("Customer does not exist!!!");
@@ -49,6 +51,16 @@ public class CourseService {
             return entityMapper.toDTO(entityRepository.findById(id).orElse(null));
         }
     }
+    */
+
+
+    public CourseDTO getEntityByID(Integer id) {
+    if (entityRepository.existsById(id) == false) {
+        throw new IllegalArgumentException("Customer does not exist!!!");
+    } else {
+        return entityMapper.toDTO(entityRepository.findById(id).orElse(null));
+    }
+}
 
     public List<CourseDTO> excludeCourse(String name) {
         return entityRepository.findByCourseNameNotContainingIgnoreCase(name).stream().map(c -> entityMapper.toDTO(c)).toList();
