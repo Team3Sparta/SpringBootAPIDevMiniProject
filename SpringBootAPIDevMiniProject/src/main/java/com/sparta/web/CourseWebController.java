@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/courses")
 public class CourseWebController {
@@ -17,6 +19,14 @@ public class CourseWebController {
 
     public CourseWebController(CourseService entityService) {
         this.entityService = entityService;
+    }
+
+    @GetMapping("/search")
+    public String searchEntities(@RequestParam("query") String query, Model model) {
+        // Search for todos by title or description
+        List<CourseDTO> searchResults = entityService.searchCourse(query);
+        model.addAttribute("entities", searchResults);
+        return "courses/index"; // Return the same index.html template with filtered results
     }
 
     @GetMapping
@@ -55,6 +65,14 @@ public class CourseWebController {
     public String saveTodo(@ModelAttribute CourseDTO newEntity) {
         entityService.saveCourse(newEntity);
         return "redirect:/courses";
+    }
+
+    @GetMapping("/exclude")
+    public String excludeSearch(@RequestParam("query") String query, Model model) {
+        // Search for todos by title or description
+        List<CourseDTO> searchResults = entityService.excludeCourse(query);
+        model.addAttribute("entities", searchResults);
+        return "courses/index"; // Return the same index.html template with filtered results
     }
     
 }
