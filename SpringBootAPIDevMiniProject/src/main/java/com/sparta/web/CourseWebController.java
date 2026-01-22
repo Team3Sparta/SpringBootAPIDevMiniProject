@@ -74,4 +74,5 @@ public class CourseWebController {
         model.addAttribute("entities", searchResults);
         return "courses/index";
     
+    }
 }

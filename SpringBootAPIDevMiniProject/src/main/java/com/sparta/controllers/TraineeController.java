@@ -38,15 +38,15 @@ public class TraineeController {
 
     @Operation(summary = "Create new trainee.", description = "Add a new trainee to the database given the info")
     @PostMapping("/")
-    public ResponseEntity<TraineeDTO> createTrainee(@RequestBody Trainee trainee) {
-        return ResponseEntity.status(201).body(traineeService.createTrainee(trainee));
+    public ResponseEntity<TraineeDTO> createTrainee(@RequestBody TraineeDTO traineeDTO) {
+        return ResponseEntity.status(201).body(traineeService.createTrainee(traineeDTO));
     }
 
     @Operation(summary = "Update existing trainee info", description = "Update the trainee information with provided info")
     @PutMapping("/")
-    public ResponseEntity<TraineeDTO> updateTrainee(@RequestBody Trainee trainee) {
+    public ResponseEntity<TraineeDTO> updateTrainee(@RequestBody TraineeDTO traineeDTO) {
         try {
-            return ResponseEntity.ok(traineeService.createTrainee(trainee));
+            return ResponseEntity.ok(traineeService.createTrainee(traineeDTO));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();
         }

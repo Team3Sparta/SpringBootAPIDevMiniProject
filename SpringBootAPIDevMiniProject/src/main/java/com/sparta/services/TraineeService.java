@@ -3,6 +3,7 @@ package com.sparta.services;
 import com.sparta.dtos.TraineeDTO;
 import com.sparta.dtos.TraineeMapper;
 import com.sparta.entities.Trainee;
+
 import com.sparta.repositories.TraineeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,11 +30,11 @@ public class TraineeService {
         return traineeMapper.toDTO(traineeRepository.findById(id).orElse(null));
     }
 
-    public TraineeDTO createTrainee(Trainee trainee) {
-        if (trainee == null) {
+    public TraineeDTO createTrainee(TraineeDTO traineeDTO) {
+        if (traineeDTO == null) {
             throw new IllegalArgumentException("Trainee cannot be null");
         }
-        return traineeMapper.toDTO(traineeRepository.save(trainee));
+        return traineeMapper.toDTO(traineeRepository.save(traineeMapper.toEntity(traineeDTO)));
     }
 
     public boolean deleteTrainee(int id) {
@@ -44,9 +45,17 @@ public class TraineeService {
         return false;
     }
 
-    public TraineeDTO updateTrainee(Trainee trainee) {
-        if (traineeRepository.existsById(trainee.getId())) {
-            return traineeMapper.toDTO(traineeRepository.save(trainee));
+    public TraineeDTO saveTrainee(TraineeDTO traineeDto) {
+
+        Trainee entity = traineeMapper.toEntity(traineeDto);
+        return traineeMapper.toDTO(traineeRepository.save(entity));
+    }
+
+    public TraineeDTO updateTrainee(TraineeDTO traineeDTO) {
+        if (traineeRepository.existsById(traineeDTO.getId())) {
+            Trainee traineeEntity = traineeMapper.toEntity(traineeDTO);
+            Trainee updatedTrainee = traineeRepository.save(traineeEntity);
+            return traineeMapper.toDTO(updatedTrainee);
         }
         throw new IllegalArgumentException("Trainee cannot be null");
     }

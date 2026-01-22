@@ -16,7 +16,8 @@ TrainerService {
     private final TrainerRepository trainerRepository;
     private final TrainerMapper trainerMapper;
 
-    public TrainerService(TrainerRepository trainerRepository, TrainerMapper trainerMapper) {
+    public TrainerService(TrainerRepository trainerRepository,
+                          TrainerMapper trainerMapper) {
         if (trainerRepository == null || trainerMapper == null) {
             throw new IllegalArgumentException("Repository and Mapper cannot be null");
         }
