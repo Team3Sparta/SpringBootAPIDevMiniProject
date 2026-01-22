@@ -5,7 +5,11 @@
     <h1 class="text-center">Sparta Global Group 3 Courses</h1>
 
     <div class="d-flex align-items-center gap-3">
-        <a href="/courses" class="btn btn-light">Courses</a>
+        <a sec:authorize="hasRole('TRAINER')"
+           href="/courses"
+           class="btn btn-light">
+            Courses
+        </a>
         <a href="/trainers" class="btn btn-light">Trainers</a>
 
 
@@ -13,5 +17,6 @@
         <form sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post" style="display:inline;">
             <button type="submit" class="btn btn-light btn-sm">Logout</button>
         </form>
+
     </div>
 </header>
