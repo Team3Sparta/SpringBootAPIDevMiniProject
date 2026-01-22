@@ -62,6 +62,7 @@ public class CourseController {
             @RequestParam("excludeName") String name    ) {
         return ResponseEntity.ok(service.excludeCourse(name));
     }
+
     @Operation(summary = "Update course", description = "Update an existing course")
     @PutMapping("/{id}")
     public ResponseEntity<CourseDTO> updateCourse(@PathVariable int id, @RequestBody CourseDTO courseDTO) {
