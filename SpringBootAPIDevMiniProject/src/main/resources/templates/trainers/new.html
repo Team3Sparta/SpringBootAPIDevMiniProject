@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:insert="fragments/head :: head('Add New Trainer')"></div>
+
+<body class="bg-light">
+<div th:replace="fragments/header :: header"></div>
+<div class="container mt-5">
+    <h1 class="text-center">Edit trainer</h1>
+    <form th:action="@{/trainers/save}" th:object="${entity}" method="post" class="mt-4">
+        <!-- First Name Field -->
+        <div class="mb-3">
+            <label for="firstName" class="form-label">First Name</label>
+            <input type="text" id="firstName" name="firstName" th:field="*{firstName}" class="form-control" required>
+        </div>
+        <!-- Last Name Field -->
+        <div class="mb-3">
+            <label for="lastName" class="form-label">Last Name</label>
+            <input type="text" id="lastName" name="lastName" th:field="*{lastName}" class="form-control" required>
+        </div>
+        <div class="text-center">
+            <form th:action="@{/trainers/save}" th:object="${entity}" method="post" class="d-inline">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </form>
+            <a href="/trainers" class="btn btn-secondary d-inline">Cancel</a>
+        </div>
+
+    </form>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>
