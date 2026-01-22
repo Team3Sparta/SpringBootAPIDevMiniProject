@@ -55,15 +55,19 @@ public class CourseService {
 
 
     public CourseDTO getEntityByID(Integer id) {
-    if (entityRepository.existsById(id) == false) {
-        throw new IllegalArgumentException("Customer does not exist!!!");
-    } else {
-        return entityMapper.toDTO(entityRepository.findById(id).orElse(null));
+        if (entityRepository.existsById(id) == false) {
+            throw new IllegalArgumentException("Customer does not exist!!!");
+        } else {
+            return entityMapper.toDTO(entityRepository.findById(id).orElse(null));
+        }
     }
-}
 
     public List<CourseDTO> excludeCourse(String name) {
         return entityRepository.findByCourseNameNotContainingIgnoreCase(name).stream().map(c -> entityMapper.toDTO(c)).toList();
+    }
+
+    public List<CourseDTO> searchCourse(String name) {
+        return entityRepository.findByCourseNameContainingIgnoreCase(name).stream().map(c -> entityMapper.toDTO(c)).toList();
     }
 
     public boolean deleteCourse(Integer id) {
