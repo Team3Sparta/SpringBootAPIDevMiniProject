@@ -11,7 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/trainee")
+@RequestMapping("/trainees")
 public class TraineeWebController {
 
     private final TraineeService entityService;
@@ -36,18 +36,18 @@ public class TraineeWebController {
     @PostMapping("/{id}/update")
     public String updateEntity(@PathVariable int id, @ModelAttribute TraineeDTO updatedEntity) {
         entityService.updateTrainee(updatedEntity);
-        return "redirect:/trainee"; // Redirects to the /trainee page
+        return "redirect:/trainees"; // Redirects to the /trainee page
     }
     @PostMapping("/save")
     public String saveEntity(@ModelAttribute TraineeDTO newEntity) {
         entityService.createTrainee(newEntity);
-        return "redirect:/trainee";
+        return "redirect:/trainees";
     }
 
     @PostMapping("/{id}/delete")
     public String deleteEntity(@PathVariable int id) {
         entityService.deleteTrainee(id);
-        return "redirect:/trainee";
+        return "redirect:/trainees";
     }
 
     @GetMapping("/new")
