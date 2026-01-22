@@ -5,7 +5,7 @@
 <body class="bg-light">
 <div th:replace="fragments/header :: header"></div>
 <div class="container mt-5">
-    <h1 class="text-center">Edit Course</h1>
+    <h1 class="text-center">New Course</h1>
     <form th:action="@{/courses/save}" th:object="${entity}" method="post" class="mt-4">
         <!-- Title Field -->
         <div class="mb-3">
