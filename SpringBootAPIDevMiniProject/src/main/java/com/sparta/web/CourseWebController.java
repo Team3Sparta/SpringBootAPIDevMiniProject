@@ -3,10 +3,10 @@ package com.sparta.web;
 
 import com.sparta.dtos.CourseDTO;
 import com.sparta.services.CourseService;
-import jakarta.validation.Valid;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,7 +23,7 @@ public class CourseWebController {
 
     @GetMapping("/search")
     public String searchEntities(@RequestParam("query") String query, Model model) {
-        // Search for todos by title or description
+        // Search for courses by title or description
         List<CourseDTO> searchResults = entityService.searchCourse(query);
         model.addAttribute("entities", searchResults);
         return "courses/index"; // Return the same index.html template with filtered results
@@ -44,9 +44,9 @@ public class CourseWebController {
     }
 
     @PostMapping("/{id}/update")
-    public String updateEntity(@PathVariable int id, @ModelAttribute CourseDTO updatedTodo) {
-        entityService.saveCourse(updatedTodo);
-        return "redirect:/courses"; // Redirects to the /todos page
+    public String updateEntity(@PathVariable int id, @ModelAttribute CourseDTO updatedEntity) {
+        entityService.saveCourse(updatedEntity);
+        return "redirect:/courses"; // Redirects to the /courses page
     }
 
     @PostMapping("/{id}/delete")
@@ -62,17 +62,16 @@ public class CourseWebController {
     }
 
     @PostMapping("/save")
-    public String saveTodo(@ModelAttribute CourseDTO newEntity) {
+    public String saveEntity(@ModelAttribute CourseDTO newEntity) {
         entityService.saveCourse(newEntity);
         return "redirect:/courses";
     }
 
     @GetMapping("/exclude")
     public String excludeSearch(@RequestParam("query") String query, Model model) {
-        // Search for todos by title or description
+        // Search for courses by title or description
         List<CourseDTO> searchResults = entityService.excludeCourse(query);
         model.addAttribute("entities", searchResults);
-        return "courses/index"; // Return the same index.html template with filtered results
-    }
+        return "courses/index";
     
 }
