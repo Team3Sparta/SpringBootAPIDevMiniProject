@@ -36,8 +36,8 @@ public class TrainerWebController {
     }
 
     @PostMapping("/{id}/update")
-    public String updateEntity(@PathVariable int id, @ModelAttribute TrainerDTO updatedTodo) {
-        entityService.createTrainer(updatedTodo);
+    public String updateEntity(@PathVariable int id, @ModelAttribute TrainerDTO updateTrainer) {
+        entityService.updateTrainer(updateTrainer);
         return "redirect:/trainers"; // Redirects to the /todos page
     }
 
@@ -54,8 +54,8 @@ public class TrainerWebController {
     }
 
     @PostMapping("/save")
-    public String saveTodo(@ModelAttribute TrainerDTO newEntity) {
-        entityService.updateTrainer(newEntity);
+    public String createTrainer(@ModelAttribute TrainerDTO newEntity) {
+        entityService.createTrainer(newEntity);
         return "redirect:/trainers";
     }
 
