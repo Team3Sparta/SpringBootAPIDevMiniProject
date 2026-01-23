@@ -11,7 +11,7 @@
 
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1 class="text-center">Courses List</h1>
-        <a th:href="@{/courses/new}" class="btn btn-primary">Add New Course</a>
+        <a th:if="${showCourses}" th:href="@{/courses/new}" class="btn btn-primary">Add New Course</a>
     </div>
 
     <div sec:authorize="isAuthenticated()"
