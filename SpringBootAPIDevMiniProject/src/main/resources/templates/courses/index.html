@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <div th:insert="fragments/head :: head('To do List')"></div>
 
 <body class="bg-light">
@@ -7,10 +7,13 @@
 
 <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="text-center">Todo List</h1>
+        <h1 class="text-center">Courses List</h1>
         <a th:href="@{/courses/new}" class="btn btn-primary">Add New Course</a>
     </div>
 
+    <div sec:authorize="isAuthenticated()"
+         sec:authentication="principal.authorities">
+    </div>
     <!--
     <form th:action="@{/courses/search}" method="get" class="mb-4">
         <div class="input-group">
@@ -26,8 +29,19 @@
             <button type="submit" class="btn btn-primary">Exclude</button>
         </div>
     </form>
-
-
+<!--
+    <div sec:authorize="isAuthenticated()">
+        Logged in as: <span sec:authentication="name"></span>
+    </div>
+    <div sec:authorize="hasRole('TRAINER')">
+        You are a TRAINER
+    </div>
+    <div sec:authorize="hasRole('TRAINEE')">
+        You are a TRAINEE
+    </div>
+    <div sec:authorize="isAuthenticated()" sec:authentication="principal.authorities"></div>
+    <div>AAAAAAAAAAA!!!!!!!!!!!</div>
+-->
     <table class="table table-striped mt-4">
         <thead>
         <tr>

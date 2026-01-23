@@ -10,6 +10,8 @@ import org.springframework.ui.Model;
 
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/trainees")
 public class TraineeWebController {
@@ -56,6 +58,14 @@ public class TraineeWebController {
         return "trainee/new";
     }
 
+    @GetMapping("/exclude")
+    public String excludeSearch(@RequestParam("query") String query, Model model) {
+        // Search for courses by title or description
+        List<TraineeDTO> searchResults = entityService.excludeTrainee(query);
+        model.addAttribute("entities", searchResults);
+        return "trainee/index";
+
+    }
 
 
 }
