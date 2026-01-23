@@ -1,22 +1,33 @@
-<header th:fragment="header"
-        class="bg-primary text-white p-3 d-flex justify-content-between align-items-center"
-        xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<div th:fragment="header"
+     xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 
-    <h1 class="text-center">Sparta Global Group 3 Courses</h1>
+    <!-- SIDEBAR -->
+    <aside class="sidebar bg-dark text-white p-4"
+           style="width:240px; position:fixed; left:0; top:0;">
 
-    <div class="d-flex align-items-center gap-3">
-        <a sec:authorize="hasRole('TRAINER')"
-           href="/courses"
-           class="btn btn-light">
-            Courses
-        </a>
-        <a href="/trainers" class="btn btn-light">Trainers</a>
+        <h4 class="mb-4 text-danger fw-bold text-center"
+            style="font-family: 'Georgia', serif;">
+            Sparta Academy
+        </h4>
 
+        <ul class="nav flex-column gap-2">
+            <li class="nav-item"><a href="/" class="nav-link text-white">Home</a></li>
+            <li class="nav-item" sec:authorize="hasRole('TRAINER')">
+                <a href="/courses" class="nav-link text-white">Courses</a>
+            </li>
+            <li class="nav-item"><a href="/trainers" class="nav-link text-white">Trainers</a></li>
+            <li class="nav-item"><a href="/trainees" class="nav-link text-white">Trainees</a></li>
+        </ul>
 
-        <!-- Logout form -->
-        <form sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post" style="display:inline;">
-            <button type="submit" class="btn btn-light btn-sm">Logout</button>
+        <hr class="border-secondary my-4">
+
+        <form sec:authorize="isAuthenticated()"
+              th:action="@{/logout}" method="post">
+            <button class="btn btn-outline-danger w-100">Logout</button>
         </form>
+    </aside>
 
     </div>
+    <p sec:authorize="isAuthenticated()">Authenticated user</p>
+
 </header>

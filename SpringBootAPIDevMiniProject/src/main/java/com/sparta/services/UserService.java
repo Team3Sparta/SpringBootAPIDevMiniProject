@@ -36,10 +36,18 @@ public class UserService implements UserDetailsService {
             throw new UsernameNotFoundException("DB password is null/blank for user: " + user.getUsername());
         }
 
-        return User.builder()
+        System.out.println("User: " + user.getUsername() + ", role: " + user.getRole());
+
+
+        /* return User.builder()
                 .username(user.getUsername())
                 .password(user.getPassword()) // should already be encoded
-                .authorities("ROLE_" + user.getRole()) // ADD AUTHORITIES
+                .roles(user.getRole())
+                .build(); */
+        return User.builder()
+                .username(user.getUsername())
+                .password(user.getPassword())
+                .authorities("ROLE_" + user.getRole().toUpperCase())
                 .build();
     }
 }

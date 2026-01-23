@@ -1,5 +1,6 @@
 package com.sparta.services;
 
+import com.sparta.dtos.CourseDTO;
 import com.sparta.dtos.TraineeDTO;
 import com.sparta.dtos.TraineeMapper;
 import com.sparta.entities.Trainee;
@@ -58,6 +59,10 @@ public class TraineeService {
             return traineeMapper.toDTO(updatedTrainee);
         }
         throw new IllegalArgumentException("Trainee cannot be null");
+    }
+
+    public List<TraineeDTO> excludeTrainee(String name) {
+        return traineeRepository.findByFirstNameNotContainingIgnoreCase(name).stream().map(c -> traineeMapper.toDTO(c)).toList();
     }
 
 }

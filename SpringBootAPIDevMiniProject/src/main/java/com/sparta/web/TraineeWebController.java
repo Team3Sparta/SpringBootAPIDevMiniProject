@@ -10,8 +10,10 @@ import org.springframework.ui.Model;
 
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
-@RequestMapping("/trainee")
+@RequestMapping("/trainees")
 public class TraineeWebController {
 
     private final TraineeService entityService;
@@ -36,18 +38,18 @@ public class TraineeWebController {
     @PostMapping("/{id}/update")
     public String updateEntity(@PathVariable int id, @ModelAttribute TraineeDTO updatedEntity) {
         entityService.updateTrainee(updatedEntity);
-        return "redirect:/trainee"; // Redirects to the /trainee page
+        return "redirect:/trainees"; // Redirects to the /trainee page
     }
     @PostMapping("/save")
     public String saveEntity(@ModelAttribute TraineeDTO newEntity) {
         entityService.createTrainee(newEntity);
-        return "redirect:/trainee";
+        return "redirect:/trainees";
     }
 
     @PostMapping("/{id}/delete")
     public String deleteEntity(@PathVariable int id) {
         entityService.deleteTrainee(id);
-        return "redirect:/trainee";
+        return "redirect:/trainees";
     }
 
     @GetMapping("/new")
@@ -56,6 +58,14 @@ public class TraineeWebController {
         return "trainee/new";
     }
 
+    @GetMapping("/exclude")
+    public String excludeSearch(@RequestParam("query") String query, Model model) {
+        // Search for courses by title or description
+        List<TraineeDTO> searchResults = entityService.excludeTrainee(query);
+        model.addAttribute("entities", searchResults);
+        return "trainee/index";
+
+    }
 
 
 }
