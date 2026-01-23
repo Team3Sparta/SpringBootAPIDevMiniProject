@@ -21,6 +21,6 @@ jobs:
         run: mvn clean test
 
       - name: Verify Dependencies and Compile
-        run: mvn clean verify
+        run: mvn -q -B clean verify
 
   
