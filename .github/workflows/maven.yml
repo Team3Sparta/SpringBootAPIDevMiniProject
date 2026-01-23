@@ -23,6 +23,4 @@ jobs:
       - name: Verify Dependencies and Compile
         run: mvn clean verify
 
-      - name: Assign Reviewers
-        if: github.event_name == 'pull_request'
-        run: gh pr edit ${{ github.event.pull_request.number }} --add-reviewer "mpbialoszewski,KhurrumA,spartamq, younisrajaApplications,  mercy-njeru"
+  
