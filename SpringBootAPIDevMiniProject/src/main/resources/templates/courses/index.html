@@ -10,12 +10,21 @@
 <div class="container mt-5" style="margin-left:260px;">
 
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1>Courses</h1>
-        <a th:href="@{/courses/new}" class="btn btn-danger">
-            Add New Course
-        </a>
+        <h1 class="text-center">Courses List</h1>
+        <a th:href="@{/courses/new}" class="btn btn-primary">Add New Course</a>
     </div>
 
+    <div sec:authorize="isAuthenticated()"
+         sec:authentication="principal.authorities">
+    </div>
+    <!--
+    <form th:action="@{/courses/search}" method="get" class="mb-4">
+        <div class="input-group">
+            <input type="text" name="query" class="form-control" placeholder="Search by name" required>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </form>
+    -->
 
     <form th:action="@{/courses/exclude}" method="get" class="mb-4">
         <div class="input-group">
