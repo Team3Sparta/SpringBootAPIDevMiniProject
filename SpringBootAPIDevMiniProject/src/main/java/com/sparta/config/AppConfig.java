@@ -53,7 +53,7 @@ public class AppConfig {
                                 .anyMatch(a -> a.getAuthority().equals("ROLE_TRAINER"));
 
                         if (isTrainee) {
-                            response.sendRedirect("/trainees");
+                            response.sendRedirect("/courses");
                         } else if (isTrainer) {
                             response.sendRedirect("/trainers");
                         } else {

@@ -5,6 +5,7 @@ import com.sparta.dtos.CourseDTO;
 import com.sparta.dtos.TraineeDTO;
 import com.sparta.services.TraineeService;
 
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
@@ -25,6 +26,13 @@ public class TraineeWebController {
     @GetMapping
     public String list(Model model) {
         model.addAttribute("entities", entityService.getAllTrainees());
+        boolean isTrainer = UtilityClass.isTrainer();
+
+        if(isTrainer == false  ){
+            throw new AccessDeniedException("You do not have permission to access this page.");
+        }
+
+        UtilityClass.addIsTrainerToModel(model);
         return "trainee/index";
     }
     @GetMapping("/{id}")
@@ -55,6 +63,7 @@ public class TraineeWebController {
     @GetMapping("/new")
     public String newEntityForm(Model model) {
         model.addAttribute("entity", new TraineeDTO());
+        UtilityClass.addIsTrainerToModel(model);
         return "trainee/new";
     }
 
@@ -63,6 +72,7 @@ public class TraineeWebController {
         // Search for courses by title or description
         List<TraineeDTO> searchResults = entityService.excludeTrainee(query);
         model.addAttribute("entities", searchResults);
+        UtilityClass.addIsTrainerToModel(model);
         return "trainee/index";
 
     }

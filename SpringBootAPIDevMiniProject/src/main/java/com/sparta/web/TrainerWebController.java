@@ -6,6 +6,7 @@ import com.sparta.dtos.TrainerDTO;
 import com.sparta.entities.Trainer;
 import com.sparta.services.TrainerService;
 import jakarta.validation.Valid;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,6 +25,12 @@ public class TrainerWebController {
     @GetMapping
     public String list(Model model) {
         model.addAttribute("entities", entityService.getAllTrainers());
+        boolean isTrainer = UtilityClass.isTrainer();
+
+        if(isTrainer == false  ){
+            throw new AccessDeniedException("You do not have permission to access this page.");
+        }
+        UtilityClass.addIsTrainerToModel(model);
         return "trainers/index";
     }
 
@@ -32,6 +39,7 @@ public class TrainerWebController {
         TrainerDTO entity = entityService.getTrainerById(id);
         //.orElseThrow(() -> new IllegalArgumentException("Invalid ID: " + id));
         model.addAttribute("entity", entity);
+        UtilityClass.addIsTrainerToModel(model);
         return "trainers/view";
     }
 
@@ -50,6 +58,7 @@ public class TrainerWebController {
     @GetMapping("/new")
     public String newEntityForm(Model model) {
         model.addAttribute("entity", new TrainerDTO());
+        UtilityClass.addIsTrainerToModel(model);
         return "trainers/new";
     }
 
