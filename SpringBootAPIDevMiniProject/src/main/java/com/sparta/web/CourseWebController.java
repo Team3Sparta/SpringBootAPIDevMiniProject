@@ -4,6 +4,8 @@ package com.sparta.web;
 import com.sparta.dtos.CourseDTO;
 import com.sparta.services.CourseService;
 
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
@@ -30,16 +32,22 @@ public class CourseWebController {
     }
 
     @GetMapping
-    public String list(Model model) {
+    public String list(Model model, Authentication authentication) {
+        String username = authentication.getName();
+
+        UtilityClass.addIsTrainerToModel(model);
+
         model.addAttribute("entities", entityService.getAllCourses());
+
         return "courses/index";
     }
 
     @GetMapping("/{id}")
-    public String viewEntity(@PathVariable int id, Model model) {
+    public String viewEntity(@PathVariable int id, Model model, Authentication authentication) {
         CourseDTO entity = entityService.getEntityByID(id);
                 //.orElseThrow(() -> new IllegalArgumentException("Invalid ID: " + id));
         model.addAttribute("entity", entity);
+        UtilityClass.addIsTrainerToModel(model);
         return "courses/view";
     }
 
@@ -58,6 +66,7 @@ public class CourseWebController {
     @GetMapping("/new")
     public String newEntityForm(Model model) {
         model.addAttribute("entity", new CourseDTO());
+        UtilityClass.addIsTrainerToModel(model);
         return "courses/new";
     }
 
@@ -72,6 +81,7 @@ public class CourseWebController {
         // Search for courses by title or description
         List<CourseDTO> searchResults = entityService.excludeCourse(query);
         model.addAttribute("entities", searchResults);
+        UtilityClass.addIsTrainerToModel(model);
         return "courses/index";
     
     }

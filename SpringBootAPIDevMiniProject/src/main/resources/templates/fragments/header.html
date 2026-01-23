@@ -12,11 +12,26 @@
 
         <ul class="nav flex-column gap-2">
             <li class="nav-item"><a href="/" class="nav-link text-white">Home</a></li>
-            <li class="nav-item" sec:authorize="hasRole('TRAINER')">
-                <a href="/courses" class="nav-link text-white">Courses</a>
+            <li class="nav-item">
+                <a href="/courses"
+                   class="btn btn-light">
+                    Courses
+                </a>
             </li>
-            <li class="nav-item"><a href="/trainers" class="nav-link text-white">Trainers</a></li>
-            <li class="nav-item"><a href="/trainees" class="nav-link text-white">Trainees</a></li>
+            <li class="nav-item">
+                <a th:if="${showCourses}"
+                   href="/trainers"
+                   class="btn btn-light">
+                    Trainers
+                </a>
+            </li>
+            <li class="nav-item">
+                <a th:if="${showCourses}"
+                   href="/trainees"
+                   class="btn btn-light">
+                    Trainees
+                </a>
+            </li>
         </ul>
 
         <hr class="border-secondary my-4">
