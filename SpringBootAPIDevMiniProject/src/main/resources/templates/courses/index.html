@@ -1,67 +1,81 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
-<div th:insert="fragments/head :: head('To do List')"></div>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<div th:insert="fragments/head :: head('Courses')"></div>
 
 <body class="bg-light">
+
 <div th:replace="fragments/header :: header"></div>
 
-<div class="container mt-5">
+<div class="container mt-5" style="margin-left:260px;">
+
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="text-center">Courses List</h1>
-        <a th:href="@{/courses/new}" class="btn btn-primary">Add New Course</a>
+        <h1>Courses</h1>
+        <a th:href="@{/courses/new}" class="btn btn-danger">
+            Add New Course
+        </a>
     </div>
 
-    <div sec:authorize="isAuthenticated()"
-         sec:authentication="principal.authorities">
-    </div>
-    <!--
-    <form th:action="@{/courses/search}" method="get" class="mb-4">
-        <div class="input-group">
-            <input type="text" name="query" class="form-control" placeholder="Search by name" required>
-            <button type="submit" class="btn btn-primary">Search</button>
-        </div>
-    </form>
-    -->
-
+    <!-- Exclude form -->
     <form th:action="@{/courses/exclude}" method="get" class="mb-4">
         <div class="input-group">
-            <input type="text" name="query" class="form-control" placeholder="Exclude by name" required>
-            <button type="submit" class="btn btn-primary">Exclude</button>
+            <input type="text"
+                   name="query"
+                   class="form-control"
+                   placeholder="Exclude by name"
+                   required>
+            <button type="submit" class="btn btn-dark">
+                Exclude
+            </button>
         </div>
     </form>
-<!--
-    <div sec:authorize="isAuthenticated()">
-        Logged in as: <span sec:authentication="name"></span>
-    </div>
-    <div sec:authorize="hasRole('TRAINER')">
-        You are a TRAINER
-    </div>
-    <div sec:authorize="hasRole('TRAINEE')">
-        You are a TRAINEE
-    </div>
-    <div sec:authorize="isAuthenticated()" sec:authentication="principal.authorities"></div>
-    <div>AAAAAAAAAAA!!!!!!!!!!!</div>
--->
-    <table class="table table-striped mt-4">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="entity : ${entities}">
-            <td th:text="${entity.id}"></td>
-            <td th:text="${entity.courseName}">
-            <td>
-                <a th:href="@{/courses/{id}(id=${entity.id})}" class="btn btn-info btn-sm">View</a>
-            </td>
 
-        </tr>
-        </tbody>
-    </table>
+    <!-- COURSES TABLE -->
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+
+            <table class="table table-hover align-middle">
+                <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Course Name</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr th:each="course : ${entities}">
+                    <td th:text="${course.id}">1</td>
+
+                    <td th:text="${course.courseName}">
+                        Java Fundamentals
+                    </td>
+
+                    <td class="text-end">
+                        <a th:href="@{/courses/{id}(id=${course.id})}"
+                           class="btn btn-sm btn-outline-danger">
+                            View
+                        </a>
+                    </td>
+                </tr>
+
+                <!-- Empty state -->
+                <tr th:if="${#lists.isEmpty(entities)}">
+                    <td colspan="3"
+                        class="text-center text-muted py-4">
+                        No courses available
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
 </div>
+
 <div th:replace="fragments/footer :: footer"></div>
+
 </body>
-</html>
 </html>
