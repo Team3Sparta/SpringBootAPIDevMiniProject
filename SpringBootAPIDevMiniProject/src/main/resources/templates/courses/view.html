@@ -3,64 +3,82 @@
 
 <div th:insert="fragments/head :: head('Edit Course')"></div>
 
-
 <body class="bg-light">
+
 <div th:replace="fragments/header :: header"></div>
 
-<div class="container mt-5">
-    <h1 class="text-center">Edit Course</h1>
+<div class="container mt-5" style="margin-left:260px;">
 
-    <!-- Main Edit Form -->
-    <form th:action="@{/courses/{id}/update(id=${entity.id})}"
-          th:object="${entity}"
-          method="post"
-          class="mt-4">
-
-        <!-- ID (read-only + hidden for submission safety) -->
-        <div class="mb-3">
-            <label class="form-label">ID</label>
-            <input type="text"
-                   class="form-control-plaintext text-muted"
-                   th:value="*{id}"
-                   readonly>
-            <input type="hidden" th:field="*{id}">
-        </div>
-
-        <!-- Title -->
-        <div class="mb-3">
-            <label class="form-label">Title</label>
-            <input type="text"
-                   class="form-control"
-                   th:field="*{courseName}"
-                   required>
-        </div>
-
-
-
-        <!-- Buttons -->
-        <div class="text-center">
-            <button type="submit" class="btn btn-primary me-2">
-                Save
-            </button>
-
-            <a th:href="@{/courses}" class="btn btn-secondary">
-                Cancel
-            </a>
-        </div>
-    </form>
-
-    <!-- Delete Form  -->
-    <div class="text-center mt-3">
-        <form th:action="@{/courses/{id}/delete(id=${entity.id})}"
-              method="post"
-              onsubmit="return confirm('Are you sure you want to delete this To Do item?')">
-
-            <button type="submit" class="btn btn-danger">
-                Delete
-            </button>
-        </form>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Edit Course</h1>
+        <a th:href="@{/courses}" class="btn btn-outline-dark">
+            Back to Courses
+        </a>
     </div>
+
+    <!-- Edit Card -->
+    <div class="card shadow-sm border-0 mb-3">
+        <div class="card-body">
+
+            <form th:action="@{/courses/{id}/update(id=${entity.id})}"
+                  th:object="${entity}"
+                  method="post">
+
+                <!-- ID -->
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Course ID</label>
+                    <input type="text"
+                           class="form-control-plaintext text-muted"
+                           th:value="*{id}"
+                           readonly>
+                    <input type="hidden" th:field="*{id}">
+                </div>
+
+                <!-- Course Name -->
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">Course Name</label>
+                    <input type="text"
+                           class="form-control"
+                           th:field="*{courseName}"
+                           required>
+                </div>
+
+                <!-- Actions -->
+                <div class="d-flex justify-content-end gap-2">
+                    <a th:href="@{/courses}"
+                       class="btn btn-outline-secondary">
+                        Cancel
+                    </a>
+
+                    <button type="submit"
+                            class="btn btn-danger">
+                        Save Changes
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+    <!-- Delete -->
+    <div class="card shadow-sm border-0">
+        <div class="card-body text-end">
+            <form th:action="@{/courses/{id}/delete(id=${entity.id})}"
+                  method="post"
+                  onsubmit="return confirm('Are you sure you want to delete this course?')">
+
+                <button type="submit"
+                        class="btn btn-outline-danger">
+                    Delete Course
+                </button>
+            </form>
+        </div>
+    </div>
+
 </div>
+
 <div th:replace="fragments/footer :: footer"></div>
+
 </body>
 </html>

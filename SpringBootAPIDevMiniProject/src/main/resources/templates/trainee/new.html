@@ -3,29 +3,57 @@
 <div th:insert="fragments/head :: head('Add New Trainer')"></div>
 
 <body class="bg-light">
-<div th:replace="fragments/header :: header"></div>
-<div class="container mt-5">
-    <h1 class="text-center">Create trainee</h1>
-    <form th:action="@{/trainees/save}" th:object="${entity}" method="post" class="mt-4">
-        <!-- First Name Field -->
-        <div class="mb-3">
-            <label for="firstName" class="form-label">First Name</label>
-            <input type="text" id="firstName" name="firstName" th:field="*{firstName}" class="form-control" required>
-        </div>
-        <!-- Last Name Field -->
-        <div class="mb-3">
-            <label for="lastName" class="form-label">Last Name</label>
-            <input type="text" id="lastName" name="lastName" th:field="*{lastName}" class="form-control" required>
-        </div>
-        <div class="text-center">
-            <form th:action="@{/trainees/save}" th:object="${entity}" method="post" class="d-inline">
-                <button type="submit" class="btn btn-primary">Save</button>
-            </form>
-            <a href="/trainees" class="btn btn-secondary d-inline">Cancel</a>
-        </div>
 
-    </form>
+<div th:replace="fragments/header :: header"></div>
+
+<div class="container mt-5" style="margin-left:600px;">
+
+    <h1 class="mb-4 text-center">New Trainee</h1>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+
+            <form th:action="@{/trainees/save}"
+                  th:object="${entity}"
+                  method="post">
+
+                <!-- First Name -->
+                <div class="mb-3">
+                    <label class="form-label">First Name</label>
+                    <input type="text"
+                           class="form-control"
+                           th:field="*{firstName}"
+                           required>
+                </div>
+
+                <!-- Last Name -->
+                <div class="mb-4">
+                    <label class="form-label">Last Name</label>
+                    <input type="text"
+                           class="form-control"
+                           th:field="*{lastName}"
+                           required>
+                </div>
+
+                <!-- Buttons -->
+                <div class="text-center">
+                    <button type="submit" class="btn btn-danger me-2">
+                        Save
+                    </button>
+
+                    <a th:href="@{/trainees}" class="btn btn-outline-dark">
+                        Cancel
+                    </a>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
 </div>
+
 <div th:replace="fragments/footer :: footer"></div>
+
 </body>
 </html>
