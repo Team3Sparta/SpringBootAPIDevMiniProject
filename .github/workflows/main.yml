@@ -1,0 +1,35 @@
+name: Java CI with Maven
+
+on:
+  push:
+    branches:
+      - dev
+      - '**'
+  pull_request:
+    branches:
+      - dev
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 25
+        uses: actions/setup-java@v4
+        with:
+          java-version: '25.0.1'
+          distribution: 'openjdk'
+          cache: 'maven'
+
+      - name: Build and Run Tests
+        run: mvn clean test
+
+      - name: Verify Dependencies and Compile
+        run: mvn clean verify
+
+      - name: Assign Reviewers
+        if: github.event_name == 'pull_request'
+        run: gh pr edit ${{ github.event.pull_request.number }} --add-reviewer "mpbialoszewski,spartamq"
