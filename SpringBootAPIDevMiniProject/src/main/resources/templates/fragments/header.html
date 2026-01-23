@@ -2,7 +2,7 @@
         class="bg-primary text-white p-3 d-flex justify-content-between align-items-center"
         xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 
-    <h1 class="text-center">Sparta Global Group 3 Courses</h1>
+    <h1 class="text-center">Sparta Global Group 3 Academy</h1>
 
     <div class="d-flex align-items-center gap-3">
         <a sec:authorize="hasRole('TRAINER')"
@@ -10,7 +10,11 @@
            class="btn btn-light">
             Courses
         </a>
+
+
+
         <a href="/trainers" class="btn btn-light">Trainers</a>
+        <a href="/trainees" class="btn btn-light">Trainees</a>
 
 
         <!-- Logout form -->
@@ -19,4 +23,6 @@
         </form>
 
     </div>
+    <p sec:authorize="isAuthenticated()">Authenticated user</p>
+
 </header>
