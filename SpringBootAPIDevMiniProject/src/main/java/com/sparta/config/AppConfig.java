@@ -37,6 +37,7 @@ public class AppConfig {
 //        return http.build();
 //    }
 
+    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http
             .authorizeHttpRequests(auth -> auth
@@ -52,9 +53,9 @@ public class AppConfig {
                                 .anyMatch(a -> a.getAuthority().equals("ROLE_TRAINER"));
 
                         if (isTrainee) {
-                            response.sendRedirect("/trainee/");
+                            response.sendRedirect("/trainees");
                         } else if (isTrainer) {
-                            response.sendRedirect("/trainer/");
+                            response.sendRedirect("/trainers");
                         } else {
                             response.sendRedirect("/"); // fallback
                         }
@@ -83,11 +84,17 @@ public class AppConfig {
                 younis.setLastName("Raja");
 
                 Trainee mohammed = new Trainee();
-                mohammed.setFirstName("Mohammed");
+                mohammed.setFirstName("Muhammad");
                 mohammed.setLastName("Qadir");
+
+                Trainee mercy = new Trainee();
+                mercy.setFirstName("Mercy");
+                mercy.setLastName("Njeru");
+
 
                 traineeRepository.save(younis);
                 traineeRepository.save(mohammed);
+                traineeRepository.save(mercy);
 
                 System.out.println("Trainee seed data added");
             } else {
@@ -123,17 +130,20 @@ public class AppConfig {
                 courseRepository.save(javaCourse);
                 courseRepository.save(springCourse);
 
+                Course javaAdvanced = new Course();
+                javaAdvanced.setCourseName("Advanced Java");
+                courseRepository.save(javaAdvanced);
+
                 System.out.println("Course seed data added");
             } else {
                 System.out.println("Course seed skipped");
             }
 
-            AppUser trainer = new AppUser("nish@spartaglobal.com", encoder.encode("trainerpass"), "TRAINER");
-            AppUser rick = new AppUser("Rick@spartaglobal.com", encoder.encode("rickpass"), "TRAINEE");
-            AppUser morty = new AppUser("Morty@spartaglobal.com", encoder.encode("mortypass"), "TRAINEE");
-            userRepo.saveAll(List.of(trainer, rick, morty));
-
-
+            AppUser phil = new AppUser("Phil", encoder.encode("a"), "TRAINER");
+            AppUser khurum= new AppUser("Khurum", encoder.encode("b"), "TRAINEE");
+            AppUser mercy = new AppUser("Mercy", encoder.encode("c"), "TRAINEE");
+            userRepo.saveAll(List.of(phil, khurum, mercy));
         };
     }
 }
+

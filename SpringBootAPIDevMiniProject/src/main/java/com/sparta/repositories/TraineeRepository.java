@@ -1,9 +1,11 @@
 package com.sparta.repositories;
 
+import com.sparta.entities.Course;
 import com.sparta.entities.Trainee;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TraineeRepository extends JpaRepository<Trainee, Integer> {
+    public java.util.List<Trainee> findByFirstNameNotContainingIgnoreCase (String name);
 }
